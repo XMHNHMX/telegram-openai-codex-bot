@@ -81,9 +81,14 @@ func (c *CodexApi) GetCodexSuggestion(prompt string) (suggestion CodexSuggestion
 		panic(err)
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
+	body := newFunction(res)
 
 	err = json.Unmarshal(body, &suggestion)
 
 	return
+}
+
+func newFunction(res *http.Response) []byte {
+    body, _ := ioutil.ReadAll(res.Body)
+    return body
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -12,11 +13,30 @@ func main() {
 
 	log.Println("starting bot")
 
-	api := NewCodexApi(os.Getenv("OPENAI_AI_KEY"))
+	api := NewCodexApi(os.Getenv("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"))
 
 	pref := tele.Settings{
-		Token:  os.Getenv("TELEGRAM_TOKEN"),
-		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
+		URL:         "",
+		Token:       os.Getenv("5793305089:AAFdb-xyTAXkor7A3Mne4wdzlT82hAIvkBs"),
+		Updates:     0,
+		Poller:      &tele.LongPoller{Timeout: 10 * time.Second},
+		Synchronous: false,
+		Verbose:     false,
+		ParseMode:   "",
+		OnError: func(error, tele.Context) {
+		},
+		Client:  &http.Client{
+			Transport: nil,
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				// Add your logic here
+				// ...
+				// Return an appropriate error value
+				return nil
+			},
+			Jar:     nil,
+			Timeout: 0,
+		},
+		Offline: false,
 	}
 
 	b, err := tele.NewBot(pref)
